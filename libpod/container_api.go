@@ -843,3 +843,33 @@ func (c *Container) Refresh(ctx context.Context) error {
 
 	return nil
 }
+
+// Checkpoint checkpoints a container
+func (c *Container) Checkpoint(keep bool) error {
+	logrus.Debugf("Trying to checkpoint container %s", c)
+	if !c.batched {
+		c.lock.Lock()
+		defer c.lock.Unlock()
+
+		if err := c.syncContainer(); err != nil {
+			return err
+		}
+	}
+
+	return c.checkpoint(keep)
+}
+
+// Restore restores a container
+func (c *Container) Restore(keep bool) (err error) {
+	logrus.Debugf("Trying to restore container %s", c)
+	if !c.batched {
+		c.lock.Lock()
+		defer c.lock.Unlock()
+
+		if err := c.syncContainer(); err != nil {
+			return err
+		}
+	}
+
+	return c.restore(keep)
+}

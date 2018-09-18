@@ -27,3 +27,11 @@ func (c *Container) cleanupNetwork() error {
 func (c *Container) generateSpec(ctx context.Context) (*spec.Spec, error) {
 	return nil, ErrNotImplemented
 }
+
+func (c *Container) checkpoint(keep bool) error {
+	return ErrNotImplemented
+}
+
+func (c *Container) restore(keep bool) error {
+	return ErrNotImplemented
+}
