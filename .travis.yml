@@ -57,6 +57,3 @@ jobs:
       go: 1.9.x
   allow_failures:
     - env: ALLOWED_TO_FAIL=true
-
-notifications:
-  irc: "chat.freenode.net#podman"
