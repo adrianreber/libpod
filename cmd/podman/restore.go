@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/containers/libpod/cmd/podman/libpodruntime"
+	"github.com/containers/libpod/pkg/criu"
 	"github.com/containers/libpod/pkg/rootless"
 	"github.com/pkg/errors"
 	"github.com/urfave/cli"
@@ -35,6 +36,10 @@ var (
 func restoreCmd(c *cli.Context) error {
 	if rootless.IsRootless() {
 		return errors.New("restoring a container requires root")
+	}
+
+	if !criu.CheckForCriu() {
+		return errors.New("checkpointing a container requires at least CRIU 3.11")
 	}
 
 	runtime, err := libpodruntime.GetRuntime(c)
